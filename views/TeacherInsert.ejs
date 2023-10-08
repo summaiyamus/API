@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher insert</title>
+    <link rel="stylesheet" href="../css/fieldstyle.css">
+
+</head>
+
+<body>
+    <div class="field_container">
+        <form id="TeacherForm" action="/api/insertTeacher" method="POST">
+            <br />
+            <h2>Insert New Teacher Record</h2>
+            <label for="name">Enter Name</label>
+            <input type="text" id="name" name="name" placeholder="Name" required />
+            <br><br><label for="Subject">Enter Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="subject" required />
+          
+
+            <br />
+            <input type="submit" value="Register" />
+        </form>
+        <br>
+        <div id="successMessage"></div>
+
+    </div>
+
+    <script>
+        document.getElementById('TeacherForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const data = {
+               
+                name: formData.get('name'),
+                subject: formData.get('subject'),
+               
+            };
+
+            const response = await fetch('/api/insertTeacher', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                document.getElementById('successMessage').textContent = 'Record inserted successfully!';
+            } else {
+                document.getElementById('successMessage').textContent = 'Error saving record';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specific Books</title>
+    <link rel="stylesheet" href="./css/tablestyle.css">
+    <style>
+        select,
+        input[type="text"] {
+            margin-left: 40%;
+            width: 300px;
+            height: 30px;
+            
+            padding: 0px;
+            padding-top: 7px;
+            padding-bottom: 5px;
+            margin-top: 8px;
+            outline: none;
+            border: none;
+            background-color: rgba(234, 233, 233, 0.847);
+
+            text-indent: 10px;
+        }
+
+        select {
+            height: 40px;
+        }
+
+        input[type="submit"] {
+            margin-left: 40%;
+            background-color: #2f3e46;
+            box-shadow: 0 0 2px rgb(13, 75, 24);
+            border: none;
+            margin-top: 13px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            width: 300px;
+            height: 30px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #52796f;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Enter Book Name</h2>
+
+    <form id="bookForm" method="GET">
+        <input type="text" id="name" name="name" placeholder="Name" required />
+        <br />
+        <input type="submit" value="Fetch" onsubmit="handler" />
+    </form>
+<br>
+    <div class="table-container"  id="bookTable">
+        <table>
+            <thead>
+                <tr>
+
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publish Year</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <br>
+       
+        <br>
+        <div class="buttons">
+            <a href="/updateBook" id="edit">Edit</a>
+            <a href="/delBook" id="del">Delete</a>
+        </div>
+    </div>
+    <div id="successMessage"></div>
+    <br>
+    
+
+
+    <script>
+        document.getElementById('bookForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+            console.log(name)
+            const response = await fetch(`/api/searchBooks?name=${name}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response);
+            if (response.ok) {
+                const responsejson = await response.json();
+
+                // Populate the table only if data is not null
+                if (responsejson.success === 1) {
+                    const tableBody = document.getElementById('tableBody');
+                    tableBody.innerHTML = '';
+
+                    responsejson.data.forEach(book => {
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                          
+                            <td>${book.title}</td>
+                            <td>${book.author}</td>
+                            <td>${book['publish year']}</td>
+                        `;
+                        tableBody.appendChild(newRow);
+                    });
+
+                    document.getElementById('successMessage').textContent = 'Record fetched successfully!';
+
+                    sessionStorage.setItem('selectedBook', JSON.stringify(responsejson.data[0]));
+
+                    // Redirect to the Edit Book page
+
+                } else {
+                    document.getElementById('successMessage').textContent = 'Fetching error!';
+                }
+            } else {
+                document.getElementById('successMessage').textContent = 'No Book available by this name';
+            }
+        });
+    </script>
+</body>
+
+</html>

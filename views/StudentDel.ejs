@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/fieldstyle.css">
+
+    <title>Delete Student</title>
+</head>
+<body>
+    <div class="field_container">
+        <form id="Form" >
+            <br />
+            <input type="hidden" name="_method" value="DELETE">
+            <h2>Delete Student Record</h2>
+            <label for="title">Enter Student Name</label>
+            <input type="text" id="name" name="name" />
+            <br>
+            <input type="submit" value="Delete" />
+            <!-- <a href="/delStudent"> Delete Student</a> -->
+            
+        </form>
+        <br>
+        <div id="successMessage"></div>
+        <div id="errorMessage"></div>
+    </div>
+
+    <script>
+        // Retrieve the Student data passed from the Specific Students page
+        const StudentData = JSON.parse(sessionStorage.getItem('selectedStudent'));
+    
+        if (StudentData) {
+            // Populate the input fields with the retrieved Student data
+            document.getElementById('name').value = StudentData.name;
+        }
+    
+        const errorMessage = document.getElementById('errorMessage');
+    
+        document.getElementById('Form').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const name = formData.get('name');
+    console.log('name',name)
+            // Send a DELETE request to delete the first Student with the given name
+            const response = await fetch(`/api/delStudent/${name}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response)
+
+            if (response.ok) {
+                document.getElementById('successMessage').textContent = 'Record Deleted successfully!';
+            } else {
+                document.getElementById('successMessage').textContent = 'Error';
+            }
+        });
+    
+    </script>
+    
+</body>
+</html>

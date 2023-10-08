@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/operations.css">
+
+    <title>std operations</title>
+    <style>
+          body{
+            background-color: #84a98c;
+            color: #354f52;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/navbar') %>
+    <div class="operation-container">
+        <div class="left">
+            <h1>Perform required 
+                opeartions</h1>
+                <p>Here you can perform multiple operations related to Students 
+                    <br> - select and enjoy your choice.
+                </p>
+        </div>
+    
+        <div class="right">
+            <div class="btn">
+                <a href="/insertStudent"><button>Add New Student</button></a>
+    
+                <a href="/allStudents"><button>See All Students Available</button></a>
+                <a href="/searchStudent"><button>Find a Student </button></a>
+            </div>
+           
+    
+        </div>
+    </div>
+    
+
+</body>
+</html>

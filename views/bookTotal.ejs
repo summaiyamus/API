@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Records</title>
+    <link rel="stylesheet" href="./css/tablestyle.css">
+</head>
+
+<body>
+   
+        <h2>All Record of Books</h2>
+    
+        <div id="successMessage"></div>
+    
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Publish Year</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+    
+            <div class="buttons">
+                <a href="/updateBook" id="edit">Edit</a>
+                <a href="/delBook" id="del">Delete</a>
+            </div>
+        </div>
+   
+    
+    <script>
+        async function fetchBooks() {
+            const response = await fetch('/api/allBooks', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const responsejson = await response.json();
+                const data =responsejson.data;
+                console.log(data);
+                document.getElementById('successMessage').textContent = 'Data fetched sucessfully';
+
+                const tableBody = document.getElementById('tableBody');
+                tableBody.innerHTML = '';
+
+                data.forEach(book => {
+                    const newRow = document.createElement('tr');
+                    newRow.innerHTML = `
+                        <td>${book.id}</td>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book['publish year']}</td>
+                    `;
+                    tableBody.appendChild(newRow);
+                });
+            } else {
+                document.getElementById('successMessage').textContent = 'Fetching error!';
+            }
+        }
+
+        // Call the fetchBooks function when the page loads
+        fetchBooks();
+    </script>
+</body>
+
+</html>

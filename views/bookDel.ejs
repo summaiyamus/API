@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/fieldstyle.css">
+
+    <title>Delete Book</title>
+</head>
+<body>
+    <div class="field_container">
+        <form id="bookForm" >
+            <br />
+            <input type="hidden" name="_method" value="DELETE">
+            <h2>Delete Book Record</h2>
+            <label for="title">Enter Book Title</label>
+            <input type="text" id="title" name="title" />
+            <br>
+            <input type="submit" value="Delete" />
+            <!-- <a href="/delBook"> Delete Book</a> -->
+            
+        </form>
+        <br>
+        <div id="successMessage"></div>
+        <div id="errorMessage"></div>
+    </div>
+
+    <script>
+        // Retrieve the book data passed from the Specific Books page
+        const bookData = JSON.parse(sessionStorage.getItem('selectedBook'));
+    
+        if (bookData) {
+            // Populate the input fields with the retrieved book data
+            document.getElementById('title').value = bookData.title;
+        }
+    
+        const errorMessage = document.getElementById('errorMessage');
+    
+        document.getElementById('bookForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const title = formData.get('title');
+    console.log('title',title)
+            // Send a DELETE request to delete the first book with the given title
+            const response = await fetch(`/api/delBook/${title}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response)
+
+            if (response.ok) {
+                document.getElementById('successMessage').textContent = 'Record Deleted successfully!';
+            } else {
+                document.getElementById('successMessage').textContent = 'Error';
+            }
+        });
+    
+    </script>
+    
+</body>
+</html>

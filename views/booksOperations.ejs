@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>operations</title>
+    <link rel="stylesheet" href="./css/operations.css">
+    <style>
+        body {
+            background-color: #0096c7;
+            color: #03045e;
+        }
+
+        .operation-container {
+            background-color: #0096c7;
+        }
+
+        .left {
+            color: #03045e;
+            text-shadow: #0096c7;
+        }
+
+        .btn button {
+
+            background-color: #03045e;
+            /* border-radius: 5px; */
+            box-shadow: #023e8a;
+            color: white;
+        }
+
+        .btn button:hover {
+            background-color: #023e8a;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <%- include('./partials/navbar') %>
+    </div>
+    <div class="operation-container">
+        <div class="left">
+            <h1>Perform required
+                opeartions</h1>
+                <p>Here you can perform multiple operations related to Books
+                    <br> - select and enjoy your choice.
+                </p>
+        </div>
+
+        <div class="right">
+            <div class="btn">
+                <a href="/insertBook"><button>Add New Book</button></a>
+
+                <a href="/allBooks"><button>See All Books Available</button></a>
+                <a href="/searchBooks"><button>Find a Book</button></a>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="/partials/navbar.js"></script>
+</body>
+
+</html>

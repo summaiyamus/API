@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>navbar</title>
+    <style>
+      ul {
+          font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+          width: 100%;
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+          border: none;
+          background-color: rgba(202, 210, 197, 0); /* Use rgba with alpha 0 for transparency */
+      }
+  
+      li {
+          float: left;
+      }
+  
+      li a {
+          width: 100%;
+          display: block;
+          color: #354f52;
+          text-align: center;
+          font-weight: bold;
+          padding: 14px 16px;
+          margin: 12px;
+          text-decoration: none;
+      }
+  
+      li a:hover:not(.active) {
+        background-color: rgba(202, 210, 197, 0.3); 
+          color: #cad2c5;
+      }
+  
+      li a.active {
+        background-color: rgba(202, 210, 197, 0.3); 
+          color: #cad2c5;
+      }
+  </style>
+  
+</head>
+<body>
+  <ul>
+    <li><a class="nav-link" href="/" onclick="setActiveLink(this)">SBT Home</a></li>
+    <li><a class="nav-link" href="/StudentsOperations" onclick="setActiveLink(this)">Students</a></li>
+    <li><a class="nav-link" href="/TeacherOperations" onclick="setActiveLink(this)">Teachers</a></li>
+    <li><a class="nav-link" href="/booksOperations" onclick="setActiveLink(this)">Books</a></li>
+</ul>
+
+<script>
+    function setActiveLink(link) {
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(otherLink => {
+            otherLink.classList.remove('active');
+        });
+        console.log(classList)
+        link.classList.add('active');
+    }
+</script>
+</body>
+</html>

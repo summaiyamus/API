@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>teacher operations</title>
+    <link rel="stylesheet" href="./css/operations.css">
+   <style>
+     body {
+        background-color: #ff758f;
+        color: #800f2f;
+    }
+
+    .operation-container {
+        background-color: #ff758f;
+    }
+
+    .left {
+        color: #800f2f;
+        text-shadow: #ff4d6d;
+    }
+
+    .btn button {
+
+        background-color: #800f2f;
+        /* border-radius: 5px; */
+        box-shadow: #800f2f;
+        color: white;
+    }
+
+    .btn button:hover {
+        background-color: #c9184a;
+    }
+   </style>
+</head>
+<body>
+    <%- include('./partials/navbar') %>
+
+  <div class="operation-container">
+
+    <div class="left">
+        <h1>Perform required 
+            opeartions</h1>
+            <p>Here you can perform multiple operations related to Teachers
+                <br> - select and enjoy your choice.
+            </p>
+    </div>
+
+    <div class="right">
+        <div class="btn">
+            <a href="/insertTeacher"><button>Add New Teacher</button></a>
+
+            <a href="/allTeacher"><button>See All Teachers Available</button></a>
+            <a href="/specificTeacher"><button>Find a Teacher </button></a>
+        </div>
+       
+
+    </div>
+  </div>
+   
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Students</title>
+    <link rel="stylesheet" href="./css/fieldstyle.css">
+</head>
+
+<body>
+    <div class="field_container">
+        <form id="StudentForm" action="/api/updateStudent" method="POST">
+            <br />
+            <h2>Edit Student Record</h2>
+            <input type="hidden" id="StudentId" name="id" />
+            <label for="name">Enter Student Name</label>
+            <input type="text" id="name" name="name" placeholder="name" required />
+            <br><label for="age">Enter Student Age</label>
+            <input type="text" id="age" name="age" placeholder="Age" required />
+            
+            <br />
+            <input type="submit" value="Update" />
+        </form>
+        <br>
+        <div id="successMessage"></div>
+        <div id="errorMessage"></div>
+    </div>
+
+    
+       <script>
+    // Retrieve the Student data passed from the Specific Students page
+    const StudentData = JSON.parse(sessionStorage.getItem('selectedStudent'));
+
+    if (StudentData) {
+        // Populate the input fields with the retrieved Student data
+        // document.getElementById('StudentId').value = StudentData.id;
+        document.getElementById('name').value = StudentData.name;
+        document.getElementById('age').value = StudentData.age;
+    
+    }
+
+    // Handle the form submission for updating the Student data
+    const errorMessage = document.getElementById('errorMessage');
+
+    document.getElementById('StudentForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        // const name = encodeURIComponent(formData.get('name')); // Encode the name
+
+        const data = {
+           
+            age: formData.get('age'),
+           
+            name: formData.get('name'),
+        };
+console.log(data)
+        const response = await fetch('/api/updateStudent', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            document.getElementById('successMessage').textContent = 'Record Updated successfully!';
+        } else {
+            document.getElementById('successMessage').textContent = 'Error';
+        }
+    });
+
+</script>
+
+</body>
+
+</html>

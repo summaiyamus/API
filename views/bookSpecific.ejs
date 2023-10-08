@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Specific Books</title>
+<link rel="stylesheet" href="./css/tablestyle.css">
+    <style>
+      
+        .field_container {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            background-color: white;
+            margin: auto;
+            width: 350px;
+            height: 80px;
+            margin-top: 50px;
+            text-align: center;
+            border-radius: 2px;
+            /* margin-right: 200px; */
+        }
+
+        .field_container select,
+        .field_container input[type="text"] {
+            width: 300px;
+            height: 30px;
+            margin: auto;
+            padding: 0px;
+            padding-top: 7px;
+            padding-bottom: 5px;
+            margin-top: 8px;
+            outline: none;
+            border: none;
+            background-color: white;
+
+            text-indent: 10px;
+        }
+
+        .field_container select {
+            height: 40px;
+        }
+
+        .field_container input[type="submit"] {
+            background-color: #354f52;
+            box-shadow: 0 0 2px #52796f;
+            border: none;
+            margin-top: 13px;
+            border-radius: 15px;
+            color: white;
+            width: 300px;
+            height: 30px;
+        }
+
+        .field_container input[type="submit"]:hover {
+            background-color: #52796f;
+        }
+
+        #bookTable {
+            margin-top: 10%;
+        }
+
+      
+    </style>
+</head>
+
+<body>
+    <div class="field_container">
+        <form id="bookForm" action="/api/specificBook" method="GET">
+            <br />
+            <h2>Enter id to fetch record of book</h2>
+            <input type="text" id="id" name="id" placeholder="ID" required />
+
+            <br />
+            <input type="submit" value="Fetch" onsubmit="handler" />
+        </form>
+    </div>
+    <div id="bookTable">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Publish Year</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </div>
+    <br>
+    <div id="successMessage"></div>
+
+
+    <script>
+        function handler() {
+            document.getElementById('bookForm').addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                const id = formData.get('id');
+
+                const response = await fetch(`/api/specificBook/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const responsejson = await response.json();
+
+                    // Populate the table only if data is not null
+                    if (responsejson.success === 1) {
+
+
+                        // Clear previous table rows
+                        const tableBody = document.getElementById('tableBody');
+                        tableBody.innerHTML = '';
+
+                        // Create a new row for the fetched data
+                        const newRow = document.createElement('tr');
+
+                        newRow.innerHTML = `
+                
+                    <td>${responsejson.data.id}</td>
+                    <td>${responsejson.data.title}</td>
+                    <td>${responsejson.data.author}</td>
+                    <td>${responsejson.data['publish year']}</td>
+                `;
+
+                        // Append the new row to the table
+                        tableBody.appendChild(newRow);
+                        document.getElementById('successMessage').textContent = 'Record fetched successfully!';
+                    } else {
+                        document.getElementById('successMessage').textContent = 'Fetching error!';
+                    }
+                } else {
+                    document.getElementById('successMessage').textContent = 'Failed to fetch';
+                }
+            });
+        }
+
+        // Call the handler function when the page loads
+        handler();
+
+    </script>
+</body>
+
+</html>
